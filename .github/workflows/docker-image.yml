@@ -79,31 +79,13 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Login to Aliyun Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com
-          username: ${{ secrets.ALIYUN_REGISTRY_USERNAME }}
-          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+      - name: Pull official kvrocks image
+        run: docker pull apache/kvrocks:latest
 
-      - name: Extract metadata for kvrocks
-        id: kvrocks-meta
-        uses: docker/metadata-action@v4
-        with:
-          images: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/kvrocks
-          tags: |
-            type=raw,value=${{ github.event.inputs.tag || 'latest' }},enable={{is_default_branch}}
-
-      - name: Build and push kvrocks multi-platform image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./kvrocks
-          file: ./kvrocks/Dockerfile
-          platforms: linux/amd64,linux/arm64
-          labels: ${{ steps.kvrocks-meta.outputs.labels }}
-          tags: |
-            crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/kvrocks:${{ github.event.inputs.tag || 'latest' }}
-          push: true
+      - name: Tag and push kvrocks to Aliyun
+        run: |
+          docker tag apache/kvrocks:latest crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/kvrocks:latest
+          docker push crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/kvrocks:latest
 
   cleanup-refresh:
     runs-on: ubuntu-latest
