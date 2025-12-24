@@ -142,13 +142,13 @@ docker pull ghcr.io/decohererk/decotv:v0.3.0
 
 ```bash
 # 方式1：使用 latest 标签（自动获取最新更新）
-docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest
 
 # 方式2：使用特定版本号（生产环境推荐）
-docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:v0.4.0
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:v0.4.0
 
 # 方式3：回滚到旧版本
-docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:v0.3.0
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:v0.3.0
 ```
 
 **版本号标签优势**：
@@ -201,7 +201,7 @@ volumes:
 ```yml
 services:
   decotv-core:
-    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest # 或使用 :v0.4.0 固定版本
     container_name: decotv-core
     restart: on-failure
     ports:
@@ -270,7 +270,7 @@ networks:
 ```yml
 services:
   decotv-core:
-    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest # 或使用 :v0.4.0 固定版本
     container_name: decotv-core
     restart: on-failure
     ports:
@@ -327,7 +327,7 @@ services:
 ```yml
 services:
   decotv-core:
-    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest # 或使用 :v0.4.0 固定版本
     container_name: decotv-core
     restart: on-failure
     ports:

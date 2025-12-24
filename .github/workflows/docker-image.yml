@@ -65,7 +65,7 @@ jobs:
         uses: docker/metadata-action@v4
 
         with:
-          images: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv
+          images: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv
           tags: |
             type=raw,value=${{ github.event.inputs.tag || 'latest' }},enable={{is_default_branch}} 
             type=raw,value=${{ steps.version.outputs.version }},enable={{is_default_branch}}
@@ -79,9 +79,9 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
-            crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:${{ github.event.inputs.tag || 'latest' }} 
-            crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:${{ steps.version.outputs.version }}
-          outputs: type=image,name=crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv,name-canonical=true,push=true
+            crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:${{ github.event.inputs.tag || 'latest' }} 
+            crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:${{ steps.version.outputs.version }}
+          outputs: type=image,name=crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv,name-canonical=true,push=true
 
       - name: Export digest
         run: |
@@ -136,10 +136,10 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:${{ github.event.inputs.tag || 'latest' }} \ 
-            $(printf 'crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv@sha256:%s ' *) 
-          docker buildx imagetools create -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:${{ steps.version.outputs.version }} \ 
-            $(printf 'crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv@sha256:%s ' *)
+          docker buildx imagetools create -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:${{ github.event.inputs.tag || 'latest' }} \ 
+            $(printf 'crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv@sha256:%s ' *) 
+          docker buildx imagetools create -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:${{ steps.version.outputs.version }} \ 
+            $(printf 'crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv@sha256:%s ' *)
 
   cleanup-refresh:
     runs-on: ubuntu-latest

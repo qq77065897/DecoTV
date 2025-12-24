@@ -21,9 +21,9 @@
     "vercel-build": "pnpm gen:manifest && pnpm copy:version && next build",
     "docker:build": "docker build -t decotv .",
     "docker:run": "docker run -p 3000:3000 decotv",
-    "docker:build:aliyun": "docker build -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest .",
-    "docker:push:aliyun": "docker push crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest",
-    "docker:run:aliyun": "docker run -p 3000:3000 crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest"
+    "docker:build:aliyun": "docker build -t crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest .",
+    "docker:push:aliyun": "docker push crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest",
+    "docker:run:aliyun": "docker run -p 3000:3000 crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
