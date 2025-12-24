@@ -1,0 +1,14 @@
+version: '3'
+services:
+  decotv-core:
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/qq77065897/decotv:latest
+    container_name: decotv-core
+    restart: on-failure
+    ports:
+      - '4499:4499'
+    environment:
+      - USERNAME=admin
+      - PASSWORD=admin123
+      - NEXT_PUBLIC_STORAGE_TYPE=file
+    volumes:
+      - ./data:/app/data
