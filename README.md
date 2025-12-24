@@ -121,7 +121,11 @@ DecoTV 提供以下 Docker 镜像标签：
 | `latest` | 最新构建版本 | 总是使用最新代码，包含所有小更新 |
 | `v0.4.0` | 特定版本号   | 固定版本部署，便于版本管理和回滚 |
 
-**推荐使用方式**：
+### 🔧 镜像仓库选择
+
+DecoTV 支持从多个镜像仓库拉取镜像，您可以根据网络环境选择合适的仓库：
+
+#### GitHub Container Registry (默认)
 
 ```bash
 # 方式1：使用 latest 标签（自动获取最新更新）
@@ -134,6 +138,19 @@ docker pull ghcr.io/decohererk/decotv:v0.4.0
 docker pull ghcr.io/decohererk/decotv:v0.3.0
 ```
 
+#### 阿里云个人实例镜像仓库
+
+```bash
+# 方式1：使用 latest 标签（自动获取最新更新）
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest
+
+# 方式2：使用特定版本号（生产环境推荐）
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:v0.4.0
+
+# 方式3：回滚到旧版本
+docker pull crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:v0.3.0
+```
+
 **版本号标签优势**：
 
 - ✅ 清楚知道运行的版本，方便对比 GitHub 最新版
@@ -144,6 +161,8 @@ docker pull ghcr.io/decohererk/decotv:v0.3.0
 > **注意**：使用 `latest` 标签时，重启容器不会自动拉取新镜像，需要手动执行 `docker pull` 才能获取更新。使用版本号标签可以明确控制何时更新。
 
 ### Kvrocks 存储（推荐）
+
+#### 使用 GitHub Container Registry
 
 ```yml
 services:
@@ -177,12 +196,81 @@ volumes:
   kvrocks-data:
 ```
 
+#### 使用阿里云镜像仓库
+
+```yml
+services:
+  decotv-core:
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
+    container_name: decotv-core
+    restart: on-failure
+    ports:
+      - '3000:3000'
+    environment:
+      - USERNAME=admin
+      - PASSWORD=admin_password
+      - NEXT_PUBLIC_STORAGE_TYPE=kvrocks
+      - KVROCKS_URL=redis://decotv-kvrocks:6666
+    networks:
+      - decotv-network
+    depends_on:
+      - decotv-kvrocks
+  decotv-kvrocks:
+    image: apache/kvrocks
+    container_name: decotv-kvrocks
+    restart: unless-stopped
+    volumes:
+      - kvrocks-data:/var/lib/kvrocks
+    networks:
+      - decotv-network
+networks:
+  decotv-network:
+    driver: bridge
+volumes:
+  kvrocks-data:
+```
+
 ### Redis 存储（有一定的丢数据风险）
+
+#### 使用 GitHub Container Registry
 
 ```yml
 services:
   decotv-core:
     image: ghcr.io/decohererk/decotv:latest # 或使用 :v0.4.0 固定版本
+    container_name: decotv-core
+    restart: on-failure
+    ports:
+      - '3000:3000'
+    environment:
+      - USERNAME=admin
+      - PASSWORD=admin_password
+      - NEXT_PUBLIC_STORAGE_TYPE=redis
+      - REDIS_URL=redis://decotv-redis:6379
+    networks:
+      - decotv-network
+    depends_on:
+      - decotv-redis
+  decotv-redis:
+    image: redis:alpine
+    container_name: decotv-redis
+    restart: unless-stopped
+    networks:
+      - decotv-network
+    # 请开启持久化，否则升级/重启后数据丢失
+    volumes:
+      - ./data:/data
+networks:
+  decotv-network:
+    driver: bridge
+```
+
+#### 使用阿里云镜像仓库
+
+```yml
+services:
+  decotv-core:
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
     container_name: decotv-core
     restart: on-failure
     ports:
@@ -216,10 +304,30 @@ networks:
 2. 复制新数据库的 **HTTPS ENDPOINT 和 TOKEN**
 3. 使用如下 docker compose
 
+#### 使用 GitHub Container Registry
+
 ```yml
 services:
   decotv-core:
     image: ghcr.io/decohererk/decotv:latest # 或使用 :v0.4.0 固定版本
+    container_name: decotv-core
+    restart: on-failure
+    ports:
+      - '3000:3000'
+    environment:
+      - USERNAME=admin
+      - PASSWORD=admin_password
+      - NEXT_PUBLIC_STORAGE_TYPE=upstash
+      - UPSTASH_URL=上面 https 开头的 HTTPS ENDPOINT
+      - UPSTASH_TOKEN=上面的 TOKEN
+```
+
+#### 使用阿里云镜像仓库
+
+```yml
+services:
+  decotv-core:
+    image: crpi-d6s5i7ct3deh7dq3.cn-hangzhou.personal.cr.aliyuncs.com/decotv/decotv:latest # 或使用 :v0.4.0 固定版本
     container_name: decotv-core
     restart: on-failure
     ports:
